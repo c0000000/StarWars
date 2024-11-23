@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="StarWars.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StarWars.Template"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+        <TextBlock Text="Star Wars" FontSize="100" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
+
+        <StackPanel Margin="10" HorizontalAlignment="Center">
+            <TextBlock Text="Cerca per nome personaggio o pianeta:" FontWeight="Bold" Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="SearchTextBox" Width="500" Margin="0,0,5,0" PlaceholderText="Cerca..."/>
+                <Button Content="Cerca"/>
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock x:Name="TxtLoading" Text="caricamento..." FontStyle="Italic" FontSize="50" FontWeight="Light" HorizontalAlignment="Center" Margin="10"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ListView x:Name="MyListView" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <local:CharacterModel x:Name="characterModel" />
+                            <ListView   ItemsSource="{Binding Vehicles}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <TextBlock Text="{Binding Name}" Margin="5" />
+                                            <TextBlock Text="{Binding Model}" Margin="5" />
+                                            <TextBlock Text="{Binding VehicleClass}" Margin="5" />
+                                            <TextBlock Text="{Binding MaxAtmospheringSpeed}" Margin="5" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+    </StackPanel>
+</Page>

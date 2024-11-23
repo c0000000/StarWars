@@ -1,0 +1,127 @@
+﻿❑ L’esercizio va consegnato entro lunedì 25.11.2024, sulle proprie cartelle upload su cloud ITS.
+❑ L’esercizio consiste nel creare una nuova APP UWP, chiamata StarWars.
+❑ L’app dovrà avere le seguenti funzionalità:
+
+• Riportare le informazioni definite nel documento StarWarsData.pdf.
+• Le informazioni vanno gestite con una o più apposite classi.
+• Le informazioni vanno legate ad una lista in un form XAML
+• Implementare due metodi di ricerca sulla lista, tramite nome personaggio e nome pianeta.
+• Dare la possibilità di salvare e caricare i dati della lista, anche i dati filtrati dalla 
+  query, nei formati XML e/o JSON. Deve potere essere salvata lista anche con i dati
+  filtrati (nome a/pianeta). I file vanno salvati nella localstorage.
+
+
+
+
+// API
+API: https://swapi.dev/api/
+
+Struttura Dati Star Wars
+
+
+API: https://swapi.dev/api/people 
+People: [
+	name
+	height
+	mass
+	skin_color
+	birth_year
+	gender                                                                           
+]
+
+API: https://swapi.dev/api/planets/ 
+planet data: [
+	name
+	gravity
+	terrain
+	surface_water
+	population
+]
+
+API: https://swapi.dev/api/vehicles/
+vehicles data: [
+	name
+	model
+	vehicle_class
+	max_atmosphering_speed
+]
+
+API: https://swapi.dev/api/starships/
+starships data: [
+	name
+	model
+	manufacturer
+	max_atmosphering_speed
+	tarship_class
+]
+
+
+// STRUTTURA_TEMPLATE API: https://swapi.dev/api/people/
+name
+height
+mass
+skin_color
+birth_year
+gender
+
+homeworld (planet data: {	// da "homeworld"
+	name
+	gravity
+	terrain
+	surface_water
+	population
+}
+vehicles data: [
+	name
+	model
+	vehicle_class
+	max_atmosphering_speed
+]
+starships data: [
+	name
+	model
+	manufacturer
+	max_atmosphering_speed
+	tarship_class
+]
+
+
+// LOGICA
+1. GET delle PEOPLE
+2. Per planet,vehicles,starship recuperare URL richeista e poi fare la richiesta e riemprie la lista 
+
+// WIREFRAME
+
+1. Riportare le informazioni definite nel documento StarWarsData.pdf.
+2. Le informazioni vanno gestite con una o più apposite classi.
+3. Le informazioni vanno legate ad una lista in un form XAML
+4. Implementare due metodi di ricerca sulla lista, tramite nome personaggio e nome pianeta.
+5. Dare la possibilità di salvare e caricare i dati della lista, anche i dati filtrati dalla 
+  query, nei formati XML e/o JSON. Deve potere essere salvata lista anche con i dati
+  filtrati (nome a/pianeta). I file vanno salvati nella localstorage.
+
+/// 1
+LIST View:
+	Con temlate la struttura dati: STRUTTURA_TEMPLATE
+Button_Filtra + TextBox: 
+ -  Barra di ricerca in base al nome personaggio e nome pianeta
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
