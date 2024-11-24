@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using StarWars.Model;
+using StarWars.Template;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -29,9 +31,17 @@ namespace StarWars
     {
 
         private HttpClient _httpClient = new();
+
+        private List<CharacterModel> result = [];
+
+        public ObservableCollection<CharacterModel> CharacterModelsList { get; set; } = [];
+
+
+
         public MainPage()
         {
             this.InitializeComponent();
+
             Init();
         }
 
@@ -39,11 +49,18 @@ namespace StarWars
         {
             List<Character> characters = await GetCharactersAsync();
 
-            List<CharcterModel> listCharcterModels = await SetListCharcterModels(characters);
+            List<CharacterModel> listCharcterModels = await SetListCharcterModels(characters); // slow
 
-            MyListView.ItemsSource = listCharcterModels;
 
-            
+            listCharcterModels.ForEach(character =>
+            {
+                CharacterModelsList.Add(character);
+            });
+
+
+            MyListView.ItemsSource = CharacterModelsList;
+
+
             TxtLoading.Visibility = Visibility.Collapsed;
         }
         public async Task<List<Character>> GetCharactersAsync()
@@ -98,44 +115,98 @@ namespace StarWars
             }
         }
 
-        private async Task<List<CharcterModel>> SetListCharcterModels(List<Character> characters)
+        private async Task<List<CharacterModel>> SetListCharcterModels(List<Character> characters)
         {
-            List<CharcterModel> result = [];
+            var result = new List<CharacterModel>();
 
             foreach (Character character in characters)
             {
-
                 Planet homeworld = await GetAsync<Planet>(character.Homeworld);
 
-                List<Starship> starships = [];
+                List<Starship> starships =[];
+                List<Vehicle> vehicles = [];
 
-                character.Starships.ForEach(async urlGetStarship =>
+                foreach (var urlGetStarship in character.Starships)
                 {
                     Starship starship = await GetAsync<Starship>(urlGetStarship);
-
                     starships.Add(starship);
-                });
+                }
 
-                List<Vehicle> vehicles = new List<Vehicle>();
-                character.Vehicles.ForEach(async urlGetVehicless =>
+                foreach (var urlGetVehicle in character.Vehicles)
                 {
-                    Vehicle vehicle = await GetAsync<Vehicle>(urlGetVehicless);
+                    Vehicle vehicle = await GetAsync<Vehicle>(urlGetVehicle);
                     vehicles.Add(vehicle);
+                }
 
-                });
-                CharcterModel charcterModel = new();
+                CharacterModel characterModel = new CharacterModel
+                {
+                    Character = character,
+                    Planet = homeworld,
+                    Starships = starships,
+                    Vehicles = vehicles
+                };
 
-                charcterModel.Character = character;
-                charcterModel.Planet = homeworld;
-
-
-                charcterModel.Starships = starships;
-                charcterModel.Vehicles = vehicles;
-
-                result.Add(charcterModel);
+                result.Add(characterModel);
             }
 
             return result;
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string word = SearchTextBox.Text;
+            CharacterModelsList.Clear();
+
+            result.ForEach(ch =>
+            {
+                if (ch.Character.Name.Contains(word, StringComparison.OrdinalIgnoreCase) ||
+                    ch.Planet.Name.Contains(word, StringComparison.OrdinalIgnoreCase))
+                {
+                    CharacterModelsList.Add(ch);
+                }
+            });
+
+            // MyListView.ItemsSource = CharacterModelsList;
+
+        }
+
+        private void MyListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MyListView.SelectedItem is CharacterModel selectedCharacter)
+            {
+                LocalProfileController.DataContext = selectedCharacter;
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MyListView.SelectedItem = result;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string word = SearchTextBox.Text;
+            if (string.IsNullOrEmpty(word))
+            {
+                result.ForEach(ch =>
+                {
+                    CharacterModelsList.Add(ch);
+                });
+                MyListView.SelectedItem = CharacterModelsList;
+                return;
+            }
+            CharacterModelsList.Clear();
+
+            result.ForEach(ch =>
+            {
+                if (ch.Character.Name.Contains(word, StringComparison.OrdinalIgnoreCase) ||
+                    ch.Planet.Name.Contains(word, StringComparison.OrdinalIgnoreCase))
+                {
+                    CharacterModelsList.Add(ch);
+                }
+            });
+
         }
     }
 }

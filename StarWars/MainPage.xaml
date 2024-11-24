@@ -11,37 +11,58 @@
     <StackPanel>
         <TextBlock Text="Star Wars" FontSize="100" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
 
-        <StackPanel Margin="10" HorizontalAlignment="Center">
-            <TextBlock Text="Cerca per nome personaggio o pianeta:" FontWeight="Bold" Margin="0,0,0,5"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="SearchTextBox" Width="500" Margin="0,0,5,0" PlaceholderText="Cerca..."/>
-                <Button Content="Cerca"/>
-            </StackPanel>
-        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="10">
 
-        <TextBlock x:Name="TxtLoading" Text="caricamento..." FontStyle="Italic" FontSize="50" FontWeight="Light" HorizontalAlignment="Center" Margin="10"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ListView x:Name="MyListView" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <local:CharacterModel x:Name="characterModel" />
-                            <ListView   ItemsSource="{Binding Vehicles}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Margin="5">
-                                            <TextBlock Text="{Binding Name}" Margin="5" />
-                                            <TextBlock Text="{Binding Model}" Margin="5" />
-                                            <TextBlock Text="{Binding VehicleClass}" Margin="5" />
-                                            <TextBlock Text="{Binding MaxAtmospheringSpeed}" Margin="5" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+
+
+            <Grid MinWidth="500">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <!-- Colonna per i Personaggi -->
+                    <ColumnDefinition Width="10" />
+                    <!-- Spazio tra le colonne -->
+                    <ColumnDefinition Width="*" />
+                    <!-- Colonna per i Veicoli -->
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Yellow" BorderThickness="0,0,1,0">
+
+                    <StackPanel Orientation="Vertical"  Grid.Column="0" >
+                        <StackPanel Margin="10" HorizontalAlignment="Left">
+                            <TextBlock Text="Cerca per nome personaggio o pianeta:" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="SearchTextBox" Width="400" Margin="0,0,5,0" PlaceholderText="Cerca..." TextChanged="SearchTextBox_TextChanged"/>
+                                <Button Content="Cerca" Click="Button_Click"/>
+                                <Button Content="Reset"  Margin="5,0,0,0" Click="Button_Click_1"/>
+                            </StackPanel>
                         </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+                        <TextBlock Text="Lista dei Personaggi" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" />
+                        <!-- ListView per i Personaggi -->
+
+                        <TextBlock x:Name="TxtLoading" Text="caricamento..." FontStyle="Italic" FontSize="50" FontWeight="Light" HorizontalAlignment="Center" Margin="10"/>
+                        <ListView x:Name="MyListView" Margin="10" HorizontalAlignment="Stretch" Height="500" VerticalAlignment="Stretch" SelectionChanged="MyListView_SelectionChanged">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="10">
+                                        <local:CharacterModelControll x:Name="LocalCharacterModel" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Border>
+                <!-- ListView per i Veicoli -->
+                <ScrollViewer 
+HorizontalScrollBarVisibility="Auto" 
+VerticalScrollBarVisibility="Auto" 
+Height="700" 
+Margin="10"  Grid.Column="2">
+
+                    <StackPanel Orientation="Vertical" >
+                        <local:ProfiloChracterControll x:Name="LocalProfileController" />
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </StackPanel>
     </StackPanel>
 </Page>
