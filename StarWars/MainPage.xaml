@@ -24,25 +24,37 @@
                     <ColumnDefinition Width="*" />
                     <!-- Colonna per i Veicoli -->
                 </Grid.ColumnDefinitions>
-                <Border BorderBrush="Yellow" BorderThickness="0,0,1,0">
+                <Border BorderBrush="Yellow" BorderThickness="0,0,1,0" Padding="10">
 
-                    <StackPanel Orientation="Vertical"  Grid.Column="0" >
+                    <StackPanel Orientation="Vertical"  Grid.Column="0">
                         <StackPanel Margin="10" HorizontalAlignment="Left">
-                            <TextBlock Text="Cerca per nome personaggio o pianeta:" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Text="Search by character or planet name:" FontWeight="Bold" Margin="0,0,0,5"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox x:Name="SearchTextBox" Width="400" Margin="0,0,5,0" PlaceholderText="Cerca..." TextChanged="SearchTextBox_TextChanged"/>
-                                <Button Content="Cerca" Click="Button_Click"/>
-                                <Button Content="Reset"  Margin="5,0,0,0" Click="Button_Click_1"/>
+                                <TextBox x:Name="SearchTextBox" Width="250" Margin="0,0,5,0" PlaceholderText="Cerca..." TextChanged="SearchTextBox_TextChanged"/>
+                                <Button Content="Search" Click="Button_Click"  CornerRadius="5"/>
+                                <Button Content="Reset"  Margin="5,0,0,0" Click="Button_Click_1"  CornerRadius="5"/>
                             </StackPanel>
+                            <Border BorderBrush="Yellow" BorderThickness="0,0,0,1" Padding="10">
+
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Save File: " FontSize="30" FontWeight="ExtraLight"/>
+                                        <Button Content="Json" Margin="10,0,0,0" CornerRadius="5" Click="Button_Click_2"/>
+                                        <Button Content="XAML" Margin="10,0,0,0" CornerRadius="5" Click="Button_Click_3" />
+                                    </StackPanel>
+                                    <TextBlock x:Name="txtBlcokMessage" FontSize="10" FontStyle="Italic" TextWrapping="Wrap"/>
+
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
                         <TextBlock Text="Lista dei Personaggi" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" />
                         <!-- ListView per i Personaggi -->
 
-                        <TextBlock x:Name="TxtLoading" Text="caricamento..." FontStyle="Italic" FontSize="50" FontWeight="Light" HorizontalAlignment="Center" Margin="10"/>
-                        <ListView x:Name="MyListView" Margin="10" HorizontalAlignment="Stretch" Height="500" VerticalAlignment="Stretch" SelectionChanged="MyListView_SelectionChanged">
+                        <TextBlock x:Name="TxtLoading" Text="caricamento..." FontStyle="Italic" FontSize="30" FontWeight="Light" Margin="10"/>
+                        <ListView x:Name="MyListView" HorizontalAlignment="Stretch" Height="500" VerticalAlignment="Stretch" SelectionChanged="MyListView_SelectionChanged">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="10">
+                                    <StackPanel Orientation="Horizontal">
                                         <local:CharacterModelControll x:Name="LocalCharacterModel" />
                                     </StackPanel>
                                 </DataTemplate>

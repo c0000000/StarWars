@@ -12,6 +12,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -117,13 +119,12 @@ namespace StarWars
 
         private async Task<List<CharacterModel>> SetListCharcterModels(List<Character> characters)
         {
-            var result = new List<CharacterModel>();
 
             foreach (Character character in characters)
             {
                 Planet homeworld = await GetAsync<Planet>(character.Homeworld);
 
-                List<Starship> starships =[];
+                List<Starship> starships = [];
                 List<Vehicle> vehicles = [];
 
                 foreach (var urlGetStarship in character.Starships)
@@ -181,13 +182,20 @@ namespace StarWars
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            MyListView.SelectedItem = result;
+            SearchTextBox.Text = "";
+            result.ForEach(ch =>
+            {
+                CharacterModelsList.Add(ch);
+            });
+            MyListView.SelectedItem = CharacterModelsList;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            txtBlcokMessage.Text = "";
+
             string word = SearchTextBox.Text;
-            if (string.IsNullOrEmpty(word))
+            if (string.IsNullOrEmpty(word.Trim()))
             {
                 result.ForEach(ch =>
                 {
@@ -208,5 +216,47 @@ namespace StarWars
             });
 
         }
+        private void SalvaListaCharctersJson()
+        {
+            try
+            {
+                string NAME_FILES = "characters.json";
+                StorageFile fileJson = ApplicationData.Current.LocalFolder.CreateFileAsync(NAME_FILES, CreationCollisionOption.OpenIfExists).GetAwaiter().GetResult();
+
+                string json = FileIO.ReadTextAsync(fileJson).GetAwaiter().GetResult();
+
+                List<CharacterModel> characterModels = [.. CharacterModelsList];
+
+
+                string jsonPersone = JsonConvert.SerializeObject(characterModels);
+
+                FileIO.WriteTextAsync(fileJson, jsonPersone).GetAwaiter().GetResult();
+
+                txtBlcokMessage.Text = $"Salvataggio completato nel percorso: \n{fileJson.Path}";
+                txtBlcokMessage.Foreground = new SolidColorBrush(Colors.White);
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Errore nel salvataggio del file: {e.Message}");
+                txtBlcokMessage.Text = "Errore nel salvataggio del file. Riprovare.";
+                txtBlcokMessage.Foreground = new SolidColorBrush(Colors.Red);
+            }
+
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            SalvaListaCharctersJson();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            txtBlcokMessage.Text = "Attenzione: Ancora da implementare...";
+        }
     }
+
+
+
 }

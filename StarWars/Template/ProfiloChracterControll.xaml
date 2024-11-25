@@ -8,9 +8,13 @@
     mc:Ignorable="d">
 
     <StackPanel Padding="20">
-        <TextBlock Text="Profile" FontSize="30" FontWeight="ExtraLight" Margin="0,0,0,20"/>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Profile" FontSize="30" FontWeight="ExtraLight" Margin="0,0,0,20"/>
+        </StackPanel>
 
         <StackPanel Orientation="Vertical">
+            <TextBlock Text="Personal information" FontSize="15" FontWeight="ExtraLight" FontStyle="Italic" Margin="0,10,0,0"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -75,6 +79,11 @@
         <Border BorderBrush="Yellow" BorderThickness="0,0,0,1" Margin="0,5">
             <TextBlock Text="Vehicles:" FontWeight="ExtraLight" FontSize="20" FontStyle="Italic" Margin="0,20,0,0"/>
         </Border>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock  Text="Available:" Margin="0,0,5,0"/>
+            <TextBlock Text="{Binding CountVehicles}"/>
+        </StackPanel>
+
         <ListView ItemsSource="{Binding Vehicles}" SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -103,6 +112,10 @@
         <Border BorderBrush="Yellow" BorderThickness="0,0,0,1" Margin="0,5">
             <TextBlock Text="Starships:" FontWeight="ExtraLight" Margin="0,20,0,0" FontSize="20" FontStyle="Italic"  />
         </Border>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock  Text="Available:" Margin="0,0,5,0"/>
+            <TextBlock Text="{Binding CountStarships}"/>
+        </StackPanel>
         <ListView ItemsSource="{Binding Starships}" SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
